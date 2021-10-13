@@ -148,4 +148,4 @@ function finish() {
 
 start();
 
-setInterval(draw, 1000/15);
+setInterval(draw, 1000/10);
