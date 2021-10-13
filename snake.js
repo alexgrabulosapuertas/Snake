@@ -29,16 +29,13 @@ function start() {
 }
 
 function draw() {
-    let count = 0;
     for (let i = 0; i < canvas.width; i+=size) {
         for (let j = 0; j <canvas.height; j+= size) {
-            ctx.fillStyle = (count % 2 === 0) ? '#99d' : '#22a';
+            ctx.fillStyle = '#22a';
             ctx.fillRect(i, j, size, size);
             ctx.strokeStyle = '#eef';
             ctx.strokeRect(i, j, size, size);
-            count++;
         }
-        count++;
     }
 
     for (let i = 0; i < snake.length; i++) {
