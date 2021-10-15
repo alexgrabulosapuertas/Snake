@@ -1,8 +1,8 @@
-const canvas = document.getElementById('canvas');
+const canvas = document.querySelector('canvas');
 canvas.width = canvas.height = 400;
 
 const ctx = canvas.getContext('2d');
-
+document.body.style.background = '#779';
 document.addEventListener('keydown', keyPush);
 
 const point = document.getElementById('score');
@@ -13,15 +13,12 @@ let snake, food, score, direction;
 
 function start() {
     snake = [
-        { x: 8*size, y: 10*size },
-        { x: 9*size, y: 10*size },
-        { x: 10*size, y: 10*size }
+        { x: 2*size, y: 4*size },
+        { x: 3*size, y: 4*size },
+        { x: 4*size, y: 4*size }
     ];
     
-    food = {
-        x: Math.floor(Math.random() * 20) * size,
-        y: Math.floor(Math.random() * 20) * size
-    };
+    generateFood();
 
     score = 0;
     point.innerHTML = score; 
@@ -48,7 +45,7 @@ function draw() {
     ctx.fillStyle = '#a22';
     ctx.fillRect(food.x, food.y, size, size);
 
-    
+
     control();
     eatFood();
     finish();
@@ -118,10 +115,7 @@ function eatFood() {
     for (let i = 0; i < snake.length; i++) {
         if (snake[i].x === food.x && snake[i].y === food.y) {
             score++;
-            food = {
-                x: Math.floor(Math.random() * 20) * size,
-                y: Math.floor(Math.random() * 20) * size
-            };
+            generateFood();
             let lastTail = {
                 x: snake[snake.length-1].x,
                 y: snake[snake.length-1].y
@@ -132,8 +126,15 @@ function eatFood() {
     }
 }
 
+function generateFood() {
+    food = {
+        x: Math.floor(Math.random() * (canvas.width/size)) * size,
+        y: Math.floor(Math.random() * (canvas.height/size)) * size
+    };
+}
+
 function finish() {
-    if (score === 400) {
+    if (score === ((canvas.width/size)*(canvas.height/size)) - 3) {
         direction = 'null';
         alert('Has ganado!!');
         start();
