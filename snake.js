@@ -12,7 +12,6 @@ const size = 20;
 let snake, food, score, direction;
 
 function start() {
-    console.log(((canvas.width/size)*(canvas.height/size)) - 3);
     snake = [
         { x: 2*size, y: 4*size },
         { x: 3*size, y: 4*size },
