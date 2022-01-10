@@ -12,7 +12,6 @@ const size = 20;
 let snake, food, score, direction;
 
 function start() {
-    console.log(((canvas.width/size)*(canvas.height/size)) - 3);
     snake = [
         { x: 2*size, y: 4*size },
         { x: 3*size, y: 4*size },
@@ -27,6 +26,7 @@ function start() {
 }
 
 function draw() {
+    //BACKGROUND
     for (let i = 0; i < canvas.width; i+=size) {
         for (let j = 0; j <canvas.height; j+= size) {
             ctx.fillStyle = '#22a';
@@ -36,6 +36,7 @@ function draw() {
         }
     }
 
+    //SNAKE
     for (let i = 0; i < snake.length; i++) {
         ctx.fillStyle = '#272';
         ctx.fillRect(snake[i].x, snake[i].y, size, size);
@@ -43,13 +44,13 @@ function draw() {
         ctx.strokeRect(snake[i].x, snake[i].y, size, size);
     }
 
+    //FOOD
     ctx.fillStyle = '#a22';
     ctx.fillRect(food.x, food.y, size, size);
 
-
     control();
-    eatFood();
     finish();
+    eatFood();
 }
 
 function keyPush(event) {
@@ -116,21 +117,35 @@ function eatFood() {
     for (let i = 0; i < snake.length; i++) {
         if (snake[i].x === food.x && snake[i].y === food.y) {
             score++;
-            generateFood();
+            if (score < (canvas.width/size) * (canvas.height/size) - 3) {
+                generateFood();
+            }
             let lastTail = {
                 x: snake[snake.length-1].x,
                 y: snake[snake.length-1].y
             };
             snake.push(lastTail);
-            point.innerHTML = score; 
+            point.innerHTML = score;
         }
     }
 }
 
 function generateFood() {
+    let foodX, foodY, valid;
+
+    do {
+        valid = true
+        foodX = Math.floor(Math.random() * canvas.width/size) * size;
+        foodY = Math.floor(Math.random() * canvas.height/size) * size;
+        for (let square of snake) {
+            if (square.x === foodX && square.y === foodY) {
+                valid = false;
+            }
+        }
+    } while(!valid);
     food = {
-        x: Math.floor(Math.random() * (canvas.width/size)) * size,
-        y: Math.floor(Math.random() * (canvas.height/size)) * size
+        x: foodX,
+        y: foodY
     };
 }
 
